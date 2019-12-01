@@ -3,11 +3,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm
 from django.http import HttpResponse
+from django.conf import settings
 
 import json
 import paho.mqtt.client as mqtt
-#import serial
 
+to_access = True
 uid_val = None
 
 ####### MQTT ########
@@ -26,14 +27,7 @@ def on_message(client, userdata, msg):
 
     if str(msg.topic) == "/uid_from_rfid":
       uid_val = str(msg.payload.decode().lstrip().rstrip())
-
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_disconnect = on_disconnect
-client.on_message = on_message
-
-client.connect("192.168.1.6", 1883, 60)
-client.subscribe("/uid_from_rfid")
+      client.loop_stop()
 ######## END ########
 
 def get_uid_value(request):
@@ -43,17 +37,33 @@ def get_uid_value(request):
         'uid_value' : uid_val
     }))
 
-
 # Create your views here.
 def pre_register(request):
     global uid_val
+    global to_access
 
-    uid_val = None
-    client.loop_start()
-    return render(request, 'users/preregister.html', { 'startuid' : 'true'})
+    if to_access == True:
+        to_access = False
+        uid_val = None
+
+        client = mqtt.Client()
+        client.on_connect = on_connect
+        client.on_disconnect = on_disconnect
+        client.on_message = on_message
+
+        client.connect(settings.SERVER_IP, 1883, 60)
+        client.subscribe("/uid_from_rfid")
+
+        client.loop_start()
+        return render(request, 'users/preregister.html', { 'startuid' : 'true'})
+    else:
+        return HttpResponse(404)
 
 def register(request):
+    global to_access
     global uid_val
+
+    to_access = True
 
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)

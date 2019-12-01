@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils import timezone
 
-from django.contrib.auth.models import User
+from users.models import Profile
 
 # Create your models here.
 class Log(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    uid = models.ForeignKey(Profile, to_field='uid', on_delete=models.CASCADE)
+    #uid = models.ForeignKey(Profile, on_delete=models.CASCADE)
     action = models.TextField()

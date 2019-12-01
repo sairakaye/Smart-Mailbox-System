@@ -6,7 +6,7 @@ from .models import Profile
 class UserRegisterForm(UserCreationForm):
     value = ""
     email = forms.EmailField()
-    uid = forms.CharField(widget = forms.HiddenInput(), max_length=71, required = False)
+    uid = forms.CharField(widget = forms.HiddenInput(), max_length=71, required=True)
 
     def set_value(self, value):
         self.value = value
