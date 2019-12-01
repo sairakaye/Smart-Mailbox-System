@@ -9,7 +9,7 @@ class Profile(models.Model):
     uid = models.CharField(max_length=70, unique=True, null=True, default=None)
 
     def __str__(self):
-        return f'{self.user.username} Profile'
+        return f'{self.user.username}\'s profile'
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
