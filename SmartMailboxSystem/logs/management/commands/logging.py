@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
 from logs.models import Log
+from django.conf import settings
 
 import paho.mqtt.client as mqtt
 
@@ -22,6 +23,6 @@ class Command(BaseCommand):
     client.on_connect = on_connect
     client.on_message = on_message
 
-    client.connect("192.168.1.6", 1883, 60)
+    client.connect(settings.SERVER_IP, 1883, 60)
     client.subscribe("/adding_logs")
     client.loop_forever()
