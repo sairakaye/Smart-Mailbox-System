@@ -13,6 +13,11 @@ int ms1 = 4;
 int ms2 = 5;
 int ms3 = 6;
 
+/** Magnetic sensors assigned **/
+String box1 = "94 7D 65 D9";
+String box2 = "56 66 97 BB";
+String box3 = "04 52 4D 6A CD 53 80";
+
 /** FOR BUTTONS **/
 int b1 = A1;
 int b2 = A2;
@@ -39,6 +44,7 @@ boolean canAccess = true; // temporarily without MQTT.
 
 void setup() {
   Serial.begin(9600);
+  
   // Setup for RFID
   SPI.begin();      // Initiate  SPI bus
   mfrc522.PCD_Init();   // Initiate MFRC522
@@ -65,17 +71,24 @@ void setup() {
 }
 
 void loop() {
+
+  /** Buttons **/
   byte readButton1 = digitalRead(b1);
   byte readButton2 = digitalRead(b2);
   byte readButton3 = digitalRead(b3);
 
+  /** Sensors **/
   byte readSensor1 = digitalRead(ms1);
   byte readSensor2 = digitalRead(ms2);
   byte readSensor3 = digitalRead(ms3);  
 
+  /** rfid **/
+  String content= "";
+  byte letter;
+
   if (mfrc522.PICC_IsNewCardPresent()) {
     if ( mfrc522.PICC_ReadCardSerial()) {
-
+      
       /** INITIALIZE IT BACK TO EVERYTHING **/
       id = "";
       ctrTime = 0;
@@ -97,16 +110,26 @@ void loop() {
       
       Serial.println(id);
 
+      //Check if tama push and rfid
+      //push button is correct
+      if(readButton1 == 1 && id.substring(1) == box1){
+        canAccess == true;
+      }
+      else if(readButton2 == 1 && id.substring(1) == box2){
+        canAccess == true;
+      }
+      else if(readButton3 == 1 && id.substring(1) == box3){
+        canAccess == true;
+      }
+     
       if (canAccess) {
         if (readButton1 == HIGH) {
           boxToOpen1 = HIGH;
         }
-  
-  
+        
         if (readButton2 == HIGH) {
           boxToOpen2 = HIGH;
         }
-  
   
         if (readButton3 == HIGH) {
           boxToOpen3 = HIGH;
@@ -114,7 +137,6 @@ void loop() {
       } else {
         id = "";
       }
-
       mfrc522.PICC_HaltA();
     }
   }
