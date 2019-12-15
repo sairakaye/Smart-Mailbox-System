@@ -9,3 +9,6 @@ Final project for LBY-IOT S18, T1 2019-2020.
    - paho-mqtt
    - django
    - django-crispy-forms
+2. Download the following software:
+   - mosquitto
+   - ConEmu (for not-so cluttered terminals)
