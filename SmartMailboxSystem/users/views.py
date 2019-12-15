@@ -26,8 +26,11 @@ def on_message(client, userdata, msg):
     print("Message:", str(msg.payload.decode().lstrip().rstrip()))
 
     if str(msg.topic) == "/uid_from_rfid":
-      uid_val = str(msg.payload.decode().lstrip().rstrip())
-      client.loop_stop()
+      split_msg = str(msg.payload.decode().lstrip().rstrip()).split()
+      
+      if split_msg[0] == "REGISTER":
+        uid_val = split_msg[1]
+        client.loop_stop()
 ######## END ########
 
 def get_uid_value(request):

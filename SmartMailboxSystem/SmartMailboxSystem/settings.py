@@ -123,4 +123,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # FOR MQTT
-SERVER_IP = '192.168.1.6'
+SERVER_IP = '192.168.1.10'
