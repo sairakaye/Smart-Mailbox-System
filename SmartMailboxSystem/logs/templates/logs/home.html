@@ -1,1 +1,12 @@
 {% extends "logs/base.html" %}
+
+{% block content %}
+  <section id="hero">
+    <div class="hero-container">
+      <center><h1>WELCOME TO SMART MAILBOX</h1></center>
+      <h4><i><center>REVOLUTIONIZING YOUR MAILBOX TODAY</center></i></h4>
+      
+        {% load static %} <center><img src="{% static 'logs/mailbox.png' %}" style="width:350px;height:350px;"/></img></center>
+    </div>
+  </section>
+{% endblock content %}

@@ -20,7 +20,7 @@ def on_message(client, userdata, msg):
     if str(msg.topic) == "/adding_logs":
         if split_msg[0] == "OPEN" or split_msg[0] == "FORCED":
             try:
-                user = Profile.objects.get(uid=split_msg[1])
+                user = Profile.objects.get(uid=split_msg[2])
             except Profile.DoesNotExist:
                 user = None
 
@@ -28,9 +28,9 @@ def on_message(client, userdata, msg):
                 act = ""
 
                 if split_msg[0] == "OPEN":
-                    act = "The user opened the box."
+                    act = "The user opened the box." + split_msg[1]
                 elif split_msg[0] == "FORCED":
-                    act = "The user forced the box to open."
+                    act = "The user forced the box to open." + split_msg[1]
                 
                 new_log = Log.objects.create(uid=user, action=act)
                 new_log.save()
