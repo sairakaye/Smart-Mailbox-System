@@ -8,7 +8,6 @@ from django.conf import settings
 import json
 import paho.mqtt.client as mqtt
 
-to_access = True
 uid_val = None
 
 ####### MQTT ########
@@ -45,28 +44,21 @@ def pre_register(request):
     global uid_val
     global to_access
 
-    if to_access == True:
-        to_access = False
-        uid_val = None
+    uid_val = None
 
-        client = mqtt.Client()
-        client.on_connect = on_connect
-        client.on_disconnect = on_disconnect
-        client.on_message = on_message
+    client = mqtt.Client()
+    client.on_connect = on_connect
+    client.on_disconnect = on_disconnect
+    client.on_message = on_message
 
-        client.connect(settings.SERVER_IP, 1883, 60)
-        client.subscribe("/uid_from_rfid")
+    client.connect(settings.SERVER_IP, 1883, 60)
+    client.subscribe("/uid_from_rfid")
 
-        client.loop_start()
-        return render(request, 'users/preregister.html', { 'startuid' : 'true'})
-    else:
-        return HttpResponse(404)
+    client.loop_start()
+    return render(request, 'users/preregister.html', { 'startuid' : 'true'})
 
 def register(request):
-    global to_access
     global uid_val
-
-    to_access = True
 
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)

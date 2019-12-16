@@ -122,5 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGIN_REDIRECT_URL = '/logs'
+
 # FOR MQTT
-SERVER_IP = '192.168.43.75'
+SERVER_IP = '192.168.1.6'

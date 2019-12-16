@@ -1,5 +1,31 @@
 {% extends "logs/base.html" %}
 
 {% block content %}
-
+<h1>Hello, {{request.user.username}}}!</h1>
+{% if logs %}
+<br>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date and Time</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ log.datetime }}</td>
+        <td>{{ log.action }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+<center>
+  <br>
+  <h3>You do not have any logs recorded.</h3>
+</center>
+{% endif %}
 {% endblock content %}

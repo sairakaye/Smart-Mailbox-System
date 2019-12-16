@@ -24,13 +24,11 @@
                 </button>
                     <div class="collapse navbar-collapse" id="navbarToggle">
                         <div class="navbar-nav mr-auto">
-                            <a class="nav-item nav-link" href="{% url 'home' %}">Logs</a>
-<!--                            <a class="nav-item nav-link" href="#">About</a>-->
                         </div>
-                         Navbar Right Side 
                         <div class="navbar-nav">
                         {% if user.is_authenticated %}
-                            <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                            <a class="nav-item nav-link" href="{% url 'logs' %}">Logs</a>
+                            <a class="nav-item nav-link" href="{% url 'profile' %}">{{request.user.username}}</a>
                             <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                         {% else %}
                             <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
