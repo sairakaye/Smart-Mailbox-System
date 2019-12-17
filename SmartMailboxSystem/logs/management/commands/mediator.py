@@ -28,9 +28,9 @@ def on_message(client, userdata, msg):
                 act = ""
 
                 if split_msg[0] == "OPEN":
-                    act = "The user opened the box." + split_msg[1]
+                    act = "The user opened the mailbox " + split_msg[1] + "."
                 elif split_msg[0] == "FORCED":
-                    act = "The user forced the box to open." + split_msg[1]
+                    act = "The user forced the mailbox " + split_msg[1] + " to open."
                 
                 new_log = Log.objects.create(uid=user, action=act)
                 new_log.save()
